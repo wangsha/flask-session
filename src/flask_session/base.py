@@ -12,7 +12,6 @@ import random
 from datetime import timedelta as TimeDelta
 from typing import Any, Optional
 
-import msgspec
 from flask import Flask, Request, Response
 from flask.sessions import SessionInterface as FlaskSessionInterface
 from flask.sessions import SessionMixin
@@ -89,6 +88,8 @@ class Serializer(ABC):
 
 class MsgSpecSerializer(Serializer):
     def __init__(self, app: Flask, format: str):
+        import msgspec
+
         self.app: Flask = app
         self.encoder: msgspec.msgpack.Encoder or msgspec.json.Encoder
         self.decoder: msgspec.msgpack.Decoder or msgspec.json.Decoder
@@ -114,6 +115,8 @@ class MsgSpecSerializer(Serializer):
             raise
 
     def decode(self, serialized_data: bytes) -> dict:
+        import msgspec
+
         """Deserialize the session data."""
         # TODO: Remove the pickle fallback in 1.0.0
         with suppress(msgspec.DecodeError):
