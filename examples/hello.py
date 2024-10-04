@@ -1,22 +1,14 @@
-"""
-    Hello
-    ~~~~~
-
-    Flask-Session demo.
-
-    :copyright: (c) 2014 by Shipeng Feng.
-    :license: BSD, see LICENSE for more details.
-"""
-from flask import Flask
-from flask import session
+from flask import Flask, session
 from flask_session import Session
-
-
-SESSION_TYPE = "redis"
-
+from redis.exceptions import RedisError
 
 app = Flask(__name__)
 app.config.from_object(__name__)
+app.config.update(
+    {
+        "SESSION_TYPE": "redis",
+    }
+)
 Session(app)
 
 
@@ -28,7 +20,14 @@ def set():
 
 @app.route("/get/")
 def get():
-    return session.get("key", "not set")
+    result = session.get("key", "not set")
+    return result
+
+
+@app.route("/delete/")
+def delete():
+    del session["key"]
+    return "deleted"
 
 
 if __name__ == "__main__":

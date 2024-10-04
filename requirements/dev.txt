@@ -1,0 +1,17 @@
+# Core
+flask>=2.2
+msgspec
+
+# Linting
+ruff
+
+# Testing
+pytest
+pytest-cov
+
+# Requirements for interfaces
+redis
+python-memcached
+Flask-SQLAlchemy
+pymongo
+cachelib
